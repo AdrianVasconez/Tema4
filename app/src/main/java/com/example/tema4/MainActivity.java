@@ -1,10 +1,10 @@
 package com.example.tema4;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,21 +12,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        // 1. Cargamos el nuevo layout de RadioButton
+        setContentView(R.layout.layout_radiobutton);
 
-        // Conectamos la variable de Java con el ID del texto en XML
-        TextView miTexto = (TextView) findViewById(R.id.texto);
+        // 2. Referenciamos los componentes
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        Button btnComprobar = findViewById(R.id.btnComprobar);
+        TextView tvResultado = findViewById(R.id.tvResultado);
 
-        // Modificamos sus atributos por código
-        miTexto.setText("Nuevo texto a mostrar");
-        miTexto.setTextColor(Color.RED);
-        miTexto.setTextSize(24);
-        miTexto.setTypeface(Typeface.SANS_SERIF);
+        // 3. Al pulsar el botón, comprobamos qué opción está marcada
+        btnComprobar.setOnClickListener(v -> {
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+            if (selectedId != -1) {
+                RadioButton selectedRadioButton = findViewById(selectedId);
+                String selectedOption = selectedRadioButton.getText().toString();
+                tvResultado.setText("Seleccionado: " + selectedOption);
+            } else {
+                tvResultado.setText("No se ha seleccionado ninguna opción");
+            }
+        });
     }
 }
